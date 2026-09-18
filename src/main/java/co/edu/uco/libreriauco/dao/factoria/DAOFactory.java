@@ -5,6 +5,9 @@ import java.sql.SQLException;
 
 import co.edu.uco.libreriauco.dao.datos.entidad.DepartamentoDAO;
 import co.edu.uco.libreriauco.dao.datos.entidad.PaisDAO;
+import co.edu.uco.libreriauco.dao.datos.entidad.sqlserver.DepartamentoSqlServerDAO;
+import co.edu.uco.libreriauco.dao.datos.entidad.sqlserver.PaisSqlServerDAO;
+import co.edu.uco.libreriauco.transversal.utilitarios.UtilSQL;
 
 public abstract class DAOFactory {
 	
@@ -33,55 +36,27 @@ public abstract class DAOFactory {
 	protected abstract void abrirConexion(); 
 	
 	public void cerrarConexion() {
-		try {
-			// Validar que exista la conexión y esté abierta antes de intentar cerrarla
-			if (this.conexion != null && !this.conexion.isClosed()) {
-				this.conexion.close();
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Error inesperado al intentar cerrar la conexión.", e);
-		}
+		UtilSQL.cerrarConexion(conexion);
 	}
 	
 	public void iniciarTransacción() {
-		try {
-			if (this.conexion != null && !this.conexion.isClosed()) {
-				// Desactivar el autocommit inicia la transacción manual
-				this.conexion.setAutoCommit(false);
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Error al intentar iniciar la transacción.", e);
-		}
+		UtilSQL.iniciarTransaccion(conexion);
 	}
 	
 	public void confirmarTransacción() {
-		try {
-			if (this.conexion != null && !this.conexion.isClosed()) {
-				// Confirmar los cambios en la base de datos
-				this.conexion.commit();
-				// Buena práctica: devolver la conexión a su estado original
-				this.conexion.setAutoCommit(true); 
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Error al intentar confirmar la transacción.", e);
-		}
+		UtilSQL.confirmarTransaccion(conexion);
 	}
 	
 	public void cancelarTransacción() {
-		try {
-			if (this.conexion != null && !this.conexion.isClosed()) {
-				// Revertir los cambios en la base de datos
-				this.conexion.rollback();
-				// Buena práctica: devolver la conexión a su estado original
-				this.conexion.setAutoCommit(true);
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException("Error al intentar cancelar la transacción.", e);
-		}
+		UtilSQL.confirmarTransaccion(conexion);
 	}
 	
-	public abstract PaisDAO obtenerPaisDAO();
+	public PaisDAO obtenerPaisDAO() {
+		return new PaisSqlServerDAO(getConexion());
+	};
 	
-	public abstract DepartamentoDAO obtenerDepartamentoDAO();
+	public DepartamentoDAO obtenerDepartamentoDAO() {
+		return new DepartamentoSqlServerDAO(getConexion());
+	};
 
 }

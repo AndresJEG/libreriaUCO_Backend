@@ -35,15 +35,12 @@ public class SqlServerDAOFactory extends DAOFactory {
 
 	@Override
 	public PaisDAO obtenerPaisDAO() {
-		// Aquí idealmente le pasarías la conexión a tu DAO, por ejemplo:
-		// return new PaisSqlServerDAO(getConexion());
-		return new PaisSqlServerDAO();
+		return new PaisSqlServerDAO(getConexion());
 	}
 
 	@Override
 	public DepartamentoDAO obtenerDepartamentoDAO() {
-		// Igual aquí
-		return new DepartamentoSqlServerDAO();
+		return new DepartamentoSqlServerDAO(getConexion());
 	}
 
 }
