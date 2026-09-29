@@ -23,7 +23,6 @@ public abstract class DAOFactory {
 
 	protected void setConexion(Connection conexion) {
 		try {
-			// Asegurar que la conexión no sea nula y esté abierta
 			if (conexion == null || conexion.isClosed()) {
 				throw new RuntimeException("La conexión no puede ser nula ni estar cerrada.");
 			}

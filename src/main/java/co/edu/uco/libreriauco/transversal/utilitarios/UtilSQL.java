@@ -31,7 +31,7 @@ public class UtilSQL {
 	
 	public static void asegurarConexionAbierta (Connection conexion) {
 		if(!conexionEstaAbierta(conexion)) {
-			var mensajeUsuario = "Mensaje que indique en términos de usuario que no es posible...";
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_PROBLEMA_CONEXION_NO_ESTA_ABIERTA_SQL;
 			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario);
 		}
 	}
@@ -43,36 +43,56 @@ public class UtilSQL {
 			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario);
 		}
 		
-		//aqui va la tarea que puso el profe para iniciar
+		try {
+			conexion.setAutoCommit(false);
+		} catch (SQLException exception){
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_PROBLEMA_AL_INICIAR_LA_TRANSACCION_SQL;
+			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario);
+		}
 	}
 	
 	public static void confirmarTransaccion(Connection conexion) {
 		if (!transaccionEstaIniciada(conexion)) {
-			var mensajeUsuario = "aqui va el mensaje hecho en el catalogo de mensajes especial para la no confirmación de la transacción"; 
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_PROBLEMA_TRANSACCION_NO_INICIADA_AL_INTENTAR_CONFIRMARLA_SQL;
 					
 			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario);
 		}
 		
-		//aqui va la tarea que puso el profe para confirmar
+		try {
+			conexion.commit();
+		} catch (SQLException excepcion) {
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_NO_SE_CONFIRMO_LA_TRANSACCION_SQL;
+			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario, excepcion.getMessage(), excepcion);
+		}
 	}
 	
 	public static void cancelarTransaccion(Connection conexion) {
 		if (!transaccionEstaIniciada(conexion)) {
-			var mensajeUsuario = "aqui va el mensaje hecho en el catalogo de mensajes especial para la no confirmación de la transacción"; 
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_PROBLEMA_TRANSACCION_NO_INICIADA_AL_INTENTAR_CANCELARLA_SQL;
 					
 			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario);
 		}
 		
-		//aqui va la tarea que puso el profe para cancelar
+		try {
+			conexion.rollback();
+		} catch (SQLException excepcion) {
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_NO_SE_CANCELO_LA_TRANSACCION_SQL;
+			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario, excepcion.getMessage(), excepcion);
+		}
 	}
 	
 	public static void cerrarConexion (Connection conexion) {
 		if(!conexionEstaAbierta(conexion)) {
-			var mensajeUsuario = "mensaje en el catalogo de que no se puede cerrar algo que no esta abiero";
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_PROBLEMA_TRANSACCION_NO_INICIADA_AL_INTENTAR_CERRARLA_SQL;
 			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario);
 		}
 		
-		//tarea del profe
+		try {
+			conexion.close();
+		} catch (SQLException excepcion) {
+			var mensajeUsuario = CatalogoMensajes.UtilSQL.USUARIO_ERROR_NO_SE_CERRO_LA_TRANSACCION_SQL;
+			throw LibreriaUCOTransversalExcepcion.crear(mensajeUsuario, excepcion.getMessage(), excepcion);
+		}
 	}
 	
 	public static boolean transaccionEstaIniciada(Connection conexion) {

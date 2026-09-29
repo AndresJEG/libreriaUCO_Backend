@@ -6,14 +6,14 @@ import co.edu.uco.libreriauco.transversal.utilitarios.UtilTexto;
 
 public class LibreriaUCOExcepcion extends RuntimeException{
 
-	private static final long serialVersionUID = -3141765983563781140L;
+	private static final long serialVersionUIID = -3141765983563781140L;
 	private Capa capa;
 	private String mensajeUsuario;
 	private String mensajeTecnico;
 	private Exception ExcepcionRaiz;
 	
 	public static long getSerialversionuid() {
-		return serialVersionUID;
+		return serialVersionUIID;
 	}
 	public Capa getCapa() {
 		return capa;

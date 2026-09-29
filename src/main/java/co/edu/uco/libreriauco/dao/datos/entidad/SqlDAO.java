@@ -9,7 +9,7 @@ public abstract class SqlDAO {
 	private Connection conexion;
 	
 	protected SqlDAO(Connection conexion) {
-		
+		this.conexion = conexion;
 	}
 	
 	private void setConexion(Connection conexion) {

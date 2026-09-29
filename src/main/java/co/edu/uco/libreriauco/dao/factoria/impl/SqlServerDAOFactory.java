@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
 import co.edu.uco.libreriauco.dao.datos.entidad.DepartamentoDAO;
 import co.edu.uco.libreriauco.dao.datos.entidad.PaisDAO;
 import co.edu.uco.libreriauco.dao.datos.entidad.sqlserver.DepartamentoSqlServerDAO;
 import co.edu.uco.libreriauco.dao.datos.entidad.sqlserver.PaisSqlServerDAO;
 import co.edu.uco.libreriauco.dao.factoria.DAOFactory;
 
+@Component
 public class SqlServerDAOFactory extends DAOFactory {
 
 	@Override
@@ -17,9 +20,9 @@ public class SqlServerDAOFactory extends DAOFactory {
 		try {
 			// 1. Definir los parámetros de conexión
 			// Asegúrate de cambiar "localhost", "1433" y "NombreTuBaseDeDatos" por tus datos reales
-			String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=LibreriaUco;encrypt=true;trustServerCertificate=true;";
-			String usuario = "tu_usuario_sql";
-			String clave = "tu_contraseña_sql";
+			String cadenaConexion = "jdbc:sqlserver://localhost:1433;databaseName=libreriauco;encrypt=true;trustServerCertificate=true;";
+			String usuario = "sa";
+			String clave = "TuNuevaContrasenaSegura123!";
 			
 			// 2. Obtener la conexión utilizando el Driver Manager
 			Connection conexionSqlServer = DriverManager.getConnection(cadenaConexion, usuario, clave);
