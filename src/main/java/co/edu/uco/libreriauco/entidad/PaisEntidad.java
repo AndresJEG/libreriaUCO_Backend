@@ -16,6 +16,12 @@ public class PaisEntidad {
 		setId(UtilUUID.VALOR_DEFECTO);
 		setNombre(UtilTexto.VACIA);
 	}
+	
+	public PaisEntidad(UUID id, String nombre) {
+		setId(id);
+		setNombre(nombre);
+	}
+	
 
 	public UUID getId() {
 		return id;
