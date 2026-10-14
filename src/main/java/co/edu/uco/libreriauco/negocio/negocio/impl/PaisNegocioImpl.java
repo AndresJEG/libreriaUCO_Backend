@@ -9,7 +9,7 @@ import co.edu.uco.libreriauco.dominio.PaisDominio;
 import co.edu.uco.libreriauco.entidad.PaisEntidad;
 import co.edu.uco.libreriauco.negocio.negocio.PaisNegocio;
 import co.edu.uco.libreriauco.negocio.negocio.assembler.impl.PaisEntidadAssembler;
-
+import co.edu.uco.libreriauco.negocio.negocio.reglas.impl.pais.AsegurarNombreNuevoPaisNoExistaRule;
 import co.edu.uco.libreriauco.transversal.excepciones.LibreriaUCOExcepcion;
 import co.edu.uco.libreriauco.transversal.excepciones.LibreriaUCONegocioExcepcion;
 import co.edu.uco.libreriauco.transversal.utilitarios.UtilObjeto;
@@ -32,35 +32,18 @@ public class PaisNegocioImpl implements PaisNegocio {
 
 	@Override
 	public void registrarInformacionNuevoPais(PaisDominio datos) {
-		try {
-			daoFactory.iniciarTransacción();
 
-			asegurarDatosRegistroNuevoPaisValidos(datos);
-			asegurarNombreNuevoPaisNoExista(datos.getNombre());
+		asegurarDatosRegistroNuevoPaisValidos(datos);
+		AsegurarNombreNuevoPaisNoExistaRule.obtenerInstancia().ejecutar(datos.getNombre(), daoFactory); //OJO ACAAA, CADA POLITICA SE COVIERTE EN UNA RULE
 
-			var idUnico = generarIdPaisUnico();
-			var datosFinales = new PaisDominio.Builder()
-					.id(idUnico)
-					.nombre(datos.getNombre().trim())
-					.build();
+		var idUnico = generarIdPaisUnico();
+		var datosFinales = new PaisDominio.Builder()
+				.id(idUnico)
+				.nombre(datos.getNombre().trim())
+				.build();
 
-			var paisEntidad = PaisEntidadAssembler.getInstance().convertirAEntidad(datosFinales);
-			daoFactory.obtenerPaisDAO().crear(paisEntidad);
-
-			daoFactory.confirmarTransacción();
-		} catch (LibreriaUCOExcepcion excepcion) {
-			daoFactory.cancelarTransacción();
-			throw excepcion;
-		} catch (Exception excepcion) {
-			daoFactory.cancelarTransacción();
-			throw LibreriaUCONegocioExcepcion.crear(
-					"Se ha presentado un problema inesperado al intentar registrar la información del nuevo país.",
-					"Ocurrió una excepción no controlada al registrar un nuevo país.",
-					excepcion
-			);
-		} finally {
-			daoFactory.cerrarConexion();
-		}
+		var paisEntidad = PaisEntidadAssembler.getInstance().convertirAEntidad(datosFinales);
+		daoFactory.obtenerPaisDAO().crear(paisEntidad);
 	}
 
 	@Override
@@ -234,21 +217,6 @@ public class PaisNegocioImpl implements PaisNegocio {
 		}
 	}
 
-	private void asegurarNombreNuevoPaisNoExista(String nombrePais) {
-		var entidadFiltro = new PaisEntidad();
-		entidadFiltro.setNombre(nombrePais.trim());
-
-		var resultados = daoFactory.obtenerPaisDAO().consultarPorFiltro(entidadFiltro);
-
-		boolean existeCoincidenciaExacta = resultados.stream()
-				.anyMatch(p -> p.getNombre() != null && p.getNombre().trim().equalsIgnoreCase(nombrePais.trim()));
-
-		if (existeCoincidenciaExacta) {
-			throw LibreriaUCONegocioExcepcion.crear(
-					"Ya existe un país registrado con el nombre '" + nombrePais.trim() + "'."
-			);
-		}
-	}
 
 	private void asegurarNombrePaisModificadoNoExisteEnOtroPais(UUID idActual, String nombreNuevo) {
 		var entidadFiltro = new PaisEntidad();

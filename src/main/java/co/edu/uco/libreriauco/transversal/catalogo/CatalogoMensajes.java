@@ -25,6 +25,12 @@ public class CatalogoMensajes {
 		public static final String USUARIO_ERROR_PROBLEMA_TRANSACCION_NO_INICIADA_AL_INTENTAR_CERRARLA_SQL = "No es posible cerrar una transacción si no ha sido abierta";
 		public static final String USUARIO_ERROR_NO_SE_CERRO_LA_TRANSACCION_SQL = "Ocurrió un problema al intentar cerrar la transacción. Por favor intente de nuevo, y si el problema persiste, cominucarlo al administrador";
 		
+		
+		//DESDE ACA DEBERIA SER PaisNegocioImpl como un public static class con su constructor privado y los mensajes publis estaticos finales.
+		public static final String NOMBRE_PAIS_OBLIGATORIO = "El nombre del pais es obligatorio.";
+		public static final String LONGITUD_NOMBRE_PAIS_NO_VALIDA = "La longitud del nombre del pais debe tener entre 1 y 50 caracteres";
+		public static final String FORMATO_NOMBRE_PAIS_NO_VALIDO = "El formato del nombre del país debe contener solo letras del abecedario, no caracteres especiales ni numeros";
+		
 	}
 
 }

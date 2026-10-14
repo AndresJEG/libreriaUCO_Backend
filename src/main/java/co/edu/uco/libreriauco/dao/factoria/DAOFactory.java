@@ -7,15 +7,28 @@ import co.edu.uco.libreriauco.dao.datos.entidad.DepartamentoDAO;
 import co.edu.uco.libreriauco.dao.datos.entidad.PaisDAO;
 import co.edu.uco.libreriauco.dao.datos.entidad.sqlserver.DepartamentoSqlServerDAO;
 import co.edu.uco.libreriauco.dao.datos.entidad.sqlserver.PaisSqlServerDAO;
+import co.edu.uco.libreriauco.dao.factoria.enums.FactoriaEnum;
+import co.edu.uco.libreriauco.dao.factoria.impl.SqlServerDAOFactory;
 import co.edu.uco.libreriauco.transversal.excepciones.LibreriaUCODatosExcepcion;
 import co.edu.uco.libreriauco.transversal.utilitarios.UtilSQL;
 
 public abstract class DAOFactory {
 	
 	private Connection conexion;
+	private static FactoriaEnum factoria = FactoriaEnum.SQLSERVER;
 	
 	protected DAOFactory() {
 		abrirConexion();
+	}
+	
+	public static DAOFactory obtenerFactoria() {
+		switch (factoria) {
+		case SQLSERVER:
+			return new SqlServerDAOFactory();
+		default:
+			var mensajeUsusario = "La fuente de indformacion deseada quie se solicito para llevar a cabo la operacion no esta habilidtaDA. Por favor contacte el administrador de la aplicacion";
+			throw LibreriaUCODatosExcepcion.crear(mensajeUsusario);
+		}
 	}
 
 	protected Connection getConexion() {

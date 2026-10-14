@@ -16,5 +16,8 @@ public class UtilUUID {
 	public static final UUID obtenerValorDefecto(final UUID id) {
 		return obtenerValorDefecto(id, VALOR_DEFECTO);
 	}
+	
+	public static U
+	return generar().toString().toLowerCase();
 
 }

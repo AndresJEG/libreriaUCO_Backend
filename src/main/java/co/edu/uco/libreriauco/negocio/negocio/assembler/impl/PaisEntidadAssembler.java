@@ -1,5 +1,7 @@
 package co.edu.uco.libreriauco.negocio.negocio.assembler.impl;
 
+import java.util.List;
+
 import co.edu.uco.libreriauco.dominio.PaisDominio;
 import co.edu.uco.libreriauco.entidad.PaisEntidad;
 import co.edu.uco.libreriauco.negocio.negocio.assembler.EntidadAssembler;
@@ -28,6 +30,11 @@ public class PaisEntidadAssembler implements EntidadAssembler<PaisDominio, PaisE
 	public PaisDominio convertirADominio(PaisEntidad entidad) {
 		var entidadTmp = UtilObjeto.obtenerValorDefectoSiValorOriginalEsNulo(entidad, new PaisEntidad());
 		return new PaisDominio.Builder().id(entidadTmp.getId()).nombre(entidadTmp.getNombre()).build();
+	}
+
+	@Override
+	public List<PaisDominio> convertirADominio(List<PaisEntidad> listaEntidades) {
+		return listaEntidades.stream().map(this::convertirADominio).toList();
 	}
 
 }
