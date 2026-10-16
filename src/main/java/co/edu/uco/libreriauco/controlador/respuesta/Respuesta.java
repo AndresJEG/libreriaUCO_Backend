@@ -4,12 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.uco.libreriauco.transversal.utilitarios.UtilFecha;
 import co.edu.uco.libreriauco.transversal.utilitarios.UtilObjeto;
 import co.edu.uco.libreriauco.transversal.utilitarios.UtilUUID;
 
 class Respuesta <D>{
 	
-	private LocalDateTime timestamp = LocalDateTime.now(); //deberia seria con el utilitario para no quemarlo
+	private LocalDateTime timestamp = UtilFecha.obtenerFechaHoraActual();
 	private List<String> mensajes;
 	private List<D> datos;
 	private EstadoRespuesta estado;

@@ -19,15 +19,12 @@ public abstract class AbstractRestController{
 	@ExceptionHandler(LibreriaUCOExcepcion.class)
 	public ResponseEntity<RespuestaError<String>> controlarLibreriaUcoException (LibreriaUCOExcepcion excepcion){
 		var respuesta = RespuestaError.crear(excepcion.getMensajeUsuario());
-		//logger.printException(excepcion); es para la traza de la excepcion
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<RespuestaError<String>> controlarException (Exception excepcion){
-		var mensajeRespuesta = "Se ha presentado un eror tratanto de llevar a cabo la operacion deseada. Por favor intente de nuevo, si persiste el problema comuniquese con el administrador, y proveale el codigo que se muestra a continuacion";//EL CONCAT SE DEBE DE REALIZAR EN EL UTILTEXTO
-		var respuesta = RespuestaError.crear(mensajeRespuesta);
-		//logger.printException(excepcion); es para la traza de la excepcion
+		var mensajeRespuesta = "Se ha presentado un error tratanto de llevar a cabo la operacion deseada. Por favor intente de nuevo, si persiste el problema comuniquese con el administrador, y proveale el codigo que se muestra a continuacion";		var respuesta = RespuestaError.crear(mensajeRespuesta);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(respuesta);
 	}
 }

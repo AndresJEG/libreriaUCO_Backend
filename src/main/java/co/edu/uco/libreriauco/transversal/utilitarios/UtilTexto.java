@@ -65,5 +65,17 @@ public class UtilTexto {
 	public boolean formatoEsValido(String valor, String patron) {
 		return obtenerValorDefecto(valor).matches(obtenerValorDefecto(patron));
 	}
+	
+	public final String concatenar(final String... textos) {
+        if (textos == null) {
+            return VACIA;
+        }
+        
+        final StringBuilder sb = new StringBuilder();
+        for (final String texto : textos) {
+            sb.append(obtenerValorDefecto(texto));
+        }
+        return sb.toString();
+    }
 
 }

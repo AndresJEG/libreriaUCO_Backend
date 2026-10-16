@@ -17,7 +17,11 @@ public class UtilUUID {
 		return obtenerValorDefecto(id, VALOR_DEFECTO);
 	}
 	
-	public static U
+	public static final UUID generar() {
+	    return UUID.randomUUID();
+	}
+	
+	public static final String generarComoTexto() {
 	return generar().toString().toLowerCase();
-
+	}
 }

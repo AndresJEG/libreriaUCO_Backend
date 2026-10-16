@@ -1,6 +1,7 @@
 package co.edu.uco.libreriauco.transversal.utilitarios;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class UtilFecha {
 	
@@ -16,4 +17,8 @@ public class UtilFecha {
 	public static LocalDate obtenerValorDefecto(final LocalDate fecha) {
 		return obtenerValorDefecto(fecha, FECHA_DEFECTO);
 	}
+	
+	public static final LocalDateTime obtenerFechaHoraActual() {
+        return LocalDateTime.now();
+    }
 }
