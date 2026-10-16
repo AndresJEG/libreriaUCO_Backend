@@ -1,5 +1,6 @@
 package co.edu.uco.libreriauco.transversal.utilitarios;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public class UtilUUID {
@@ -18,7 +19,7 @@ public class UtilUUID {
 	}
 	
 	public static final UUID generar() {
-	    return UUID.randomUUID();
+	    return UUID.ofEpochMillis(Instant.now().toEpochMilli());//PILAS ACA, ES UN UUID V7
 	}
 	
 	public static final String generarComoTexto() {
